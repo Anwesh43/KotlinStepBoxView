@@ -109,7 +109,7 @@ class StepBoxView (ctx : Context) : View(ctx) {
             val h : Float = canvas.height.toFloat()
             val size : Float = (w)/ SB_NODES
             canvas.save()
-            canvas.translate(size * i, h - (i +1) * size)
+            canvas.translate(size * i, (h - size) - ((i) * (size/2)))
             canvas.drawRect(RectF(0f, 0f, size * state.scale, size), paint)
             canvas.restore()
             prev?.draw(canvas, paint)
@@ -155,7 +155,7 @@ class StepBoxView (ctx : Context) : View(ctx) {
 
         fun render(canvas : Canvas, paint : Paint) {
             canvas.drawColor(Color.parseColor("#212121"))
-            paint.color = Color.parseColor("#e74c3c")
+            paint.color = Color.parseColor("#1abc9c")
             stepBox.draw(canvas, paint)
             animator.animate {
                 stepBox.update {
