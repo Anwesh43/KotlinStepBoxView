@@ -120,4 +120,27 @@ class StepBoxView (ctx : Context) : View(ctx) {
         }
     }
 
+    data class StepBox (var i : Int) {
+
+        var dir : Int = 1
+
+        private var curr : SBNode = SBNode()
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            curr.draw(canvas, paint)
+        }
+
+        fun update(stopcb : (Float) -> Unit) {
+            curr.update {
+                this.curr = this.curr.getNext(dir) {
+                    this.dir *= -1
+                }
+            }
+        }
+
+        fun startUpdating(startcb : () -> Unit) {
+            curr.startUpdating(startcb)
+        }
+    }
+
 }
