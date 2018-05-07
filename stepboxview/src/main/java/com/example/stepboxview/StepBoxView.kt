@@ -143,4 +143,27 @@ class StepBoxView (ctx : Context) : View(ctx) {
         }
     }
 
+    data class Renderer(var view : StepBoxView) {
+
+        private val stepBox : StepBox = StepBox(0)
+
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#212121"))
+            paint.color = Color.parseColor("#e74c3c")
+            stepBox.draw(canvas, paint)
+            animator.animate {
+                stepBox.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            stepBox.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
