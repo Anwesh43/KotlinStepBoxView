@@ -4,6 +4,7 @@ package com.example.stepboxview
  * Created by anweshmishra on 07/05/18.
  */
 
+import android.app.Activity
 import android.content.*
 import android.view.*
 import android.graphics.*
@@ -166,6 +167,14 @@ class StepBoxView (ctx : Context) : View(ctx) {
             stepBox.startUpdating {
                 animator.start()
             }
+        }
+    }
+
+    companion object {
+        fun create(activity : Activity) : StepBoxView {
+            val view : StepBoxView = StepBoxView(activity)
+            activity.setContentView(view)
+            return view 
         }
     }
 }
