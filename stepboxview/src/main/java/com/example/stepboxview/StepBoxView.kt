@@ -112,6 +112,7 @@ class StepBoxView (ctx : Context) : View(ctx) {
             canvas.translate(size * i, h - (i +1) * size)
             canvas.drawRect(RectF(0f, 0f, size * state.scale, size), paint)
             canvas.restore()
+            prev?.draw(canvas, paint)
         }
 
         fun update(stopcb : (Float) -> Unit) {
@@ -174,7 +175,7 @@ class StepBoxView (ctx : Context) : View(ctx) {
         fun create(activity : Activity) : StepBoxView {
             val view : StepBoxView = StepBoxView(activity)
             activity.setContentView(view)
-            return view 
+            return view
         }
     }
 }
