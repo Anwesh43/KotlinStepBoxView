@@ -8,6 +8,7 @@ import android.content.*
 import android.view.*
 import android.graphics.*
 
+val SB_NODES : Int = 10
 class StepBoxView (ctx : Context) : View(ctx) {
 
     private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
@@ -71,6 +72,52 @@ class StepBoxView (ctx : Context) : View(ctx) {
                 animated = false
             }
         }
-
     }
+
+    data class SBNode (var i : Int = 0, val state : State = State()) {
+        var next : SBNode? = null
+        var prev : SBNode? = null
+        init {
+            this.addNeighbor()
+        }
+
+        fun addNeighbor() {
+            if (i  < SB_NODES - 1) {
+                val node : SBNode = SBNode(i+1)
+                next = node
+                node.prev = this
+            }
+        }
+
+        fun getNext(dir : Int, cb : () -> Unit) : SBNode {
+            var curr : SBNode? = prev
+            if (dir == 1) {
+                curr = next
+            }
+            if (curr != null) {
+                return curr
+            }
+            cb()
+            return this
+        }
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            val w : Float = canvas.width.toFloat()
+            val h : Float = canvas.height.toFloat()
+            val size : Float = (w)/ SB_NODES
+            canvas.save()
+            canvas.translate(size * i, h - (i +1) * size)
+            canvas.drawRect(RectF(0f, 0f, size * state.scale, size), paint)
+            canvas.restore()
+        }
+
+        fun update(stopcb : (Float) -> Unit) {
+            state.update(stopcb)
+        }
+
+        fun startUpdating(startcb : () -> Unit) {
+            state.startUpdating(startcb)
+        }
+    }
+
 }
